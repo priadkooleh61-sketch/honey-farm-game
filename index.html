@@ -1,4 +1,289 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Honey Farm 🍯</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:linear-gradient(#87ceeb,#dff6ff);
+ color:#4b3200;
+ text-align:center;
+}
+
+.game{
+ max-width:500px;
+ margin:auto;
+ padding:20px;
+}
+
+h1{
+ font-size:32px;
+ margin:10px 0 20px;
+}
+
+.stats{
+ background:white;
+ border-radius:20px;
+ padding:18px;
+ font-size:25px;
+ font-weight:bold;
+ box-shadow:0 4px 10px #0002;
+}
+
+.bee{
+ font-size:110px;
+ border:0;
+ background:transparent;
+ margin:20px;
+ cursor:pointer;
+}
+
+.bee:active{
+ transform:scale(.85);
+}
+
+.info{
+ font-size:19px;
+ margin-bottom:15px;
+}
+
+.shop{
+ background:white;
+ border-radius:20px;
+ padding:18px;
+ margin-top:20px;
+ box-shadow:0 4px 10px #0002;
+}
+
+.shop h2{
+ margin-top:0;
+}
+
+.item{
+ background:#fff4c2;
+ border-radius:15px;
+ padding:14px;
+ margin:10px 0;
+}
+
+.item button{
+ width:100%;
+ padding:14px;
+ border:0;
+ border-radius:12px;
+ background:#ffc107;
+ color:#4b3200;
+ font-size:17px;
+ font-weight:bold;
+ cursor:pointer;
+}
+
+.item button:disabled{
+ background:#ccc;
+ color:#777;
+}
+
+.farm{
+ margin-top:20px;
+ background:#7ac943;
+ border-radius:20px;
+ padding:20px;
+ font-size:45px;
+}
+
+.message{
+ min-height:24px;
+ margin-top:12px;
+ font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="game">
+
+<h1>🍯 Honey Farm 🐝</h1>
+
+<div class="stats">
+🍯 Мёд: <span id="honey">0</span>
+</div>
+
+<button class="bee" id="clickBee">🐝</button>
+
+<div class="info">
+За клик: +<b id="power">1</b> 🍯
+<br>
+Автоматически: +<b id="auto">0</b> 🍯/сек
+</div>
+
+<div class="shop">
+
+<h2>🛒 Магазин</h2>
+
+<div class="item">
+🐝 <b>Новая пчела</b>
+<br>
++1 🍯/сек
+<br><br>
+<button id="buyBee">
+Купить — <span id="beeCost">50</span> 🍯
+</button>
+</div>
+
+<div class="item">
+⚡ <b>Сила клика</b>
+<br>
++1 🍯 за клик
+<br><br>
+<button id="upgrade">
+Улучшить — <span id="powerCost">25</span> 🍯
+</button>
+</div>
+
+<div class="item">
+🍯 <b>Медовый бонус</b>
+<br>
++10 🍯 сразу
+<br><br>
+<button id="bonus">
+Получить — <span id="bonusCost">100</span> 🍯
+</button>
+</div>
+
+<div class="message" id="message"></div>
+
+</div>
+
+<div class="farm">
+🌳 🐝 🏡 🐝 🌻
+<br>
+Пчёл: <span id="bees">0</span>
+</div>
+
+</div>
+
+<script>
+
+var honey = 0;
+var power = 1;
+var bees = 0;
+
+var beeCost = 50;
+var powerCost = 25;
+var bonusCost = 100;
+
+function update(){
+
+ document.getElementById("honey").textContent=Math.floor(honey);
+ document.getElementById("power").textContent=power;
+ document.getElementById("auto").textContent=bees;
+ document.getElementById("bees").textContent=bees;
+
+ document.getElementById("beeCost").textContent=beeCost;
+ document.getElementById("powerCost").textContent=powerCost;
+ document.getElementById("bonusCost").textContent=bonusCost;
+
+}
+
+function message(text){
+ document.getElementById("message").textContent=text;
+
+ setTimeout(function(){
+  document.getElementById("message").textContent="";
+ },1500);
+}
+
+document.getElementById("clickBee").addEventListener("click",function(){
+
+ honey += power;
+ update();
+
+});
+
+document.getElementById("buyBee").addEventListener("click",function(){
+
+ if(honey >= beeCost){
+
+  honey -= beeCost;
+  bees++;
+
+  beeCost=Math.ceil(beeCost*1.8);
+
+  message("🐝 Новая пчела куплена!");
+
+  update();
+
+ }else{
+
+  message("❌ Недостаточно мёда!");
+
+ }
+
+});
+
+document.getElementById("upgrade").addEventListener("click",function(){
+
+ if(honey >= powerCost){
+
+  honey -= powerCost;
+  power++;
+
+  powerCost=Math.ceil(powerCost*1.7);
+
+  message("⚡ Сила клика увеличена!");
+
+  update();
+
+ }else{
+
+  message("❌ Недостаточно мёда!");
+
+ }
+
+});
+
+document.getElementById("bonus").addEventListener("click",function(){
+
+ if(honey >= bonusCost){
+
+  honey -= bonusCost;
+  honey += 10;
+
+  bonusCost=Math.ceil(bonusCost*2);
+
+  message("🍯 Медовый бонус активирован!");
+
+  update();
+
+ }else{
+
+  message("❌ Недостаточно мёда!");
+
+ }
+
+});
+
+setInterval(function(){
+
+ honey += bees;
+
+ update();
+
+},1000);
+
+update();
+
+</script>
+
+</body>
+</html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
