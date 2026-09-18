@@ -1,1 +1,55 @@
 
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Honey Farm 🍯</title>
+<style>
+body{margin:0;font-family:Arial;background:linear-gradient(#87ceeb,#dff6ff);text-align:center;color:#4b3200}
+.game{max-width:500px;margin:auto;padding:20px}
+h1{font-size:34px}
+.stats{background:white;border-radius:20px;padding:15px;font-size:24px;font-weight:bold}
+.bee{font-size:120px;border:0;background:transparent;cursor:pointer;margin:25px}
+.info{font-size:20px;margin-bottom:20px}
+.upgrade{width:100%;padding:16px;border:0;border-radius:15px;background:#ffc107;font-size:18px;font-weight:bold}
+.farm{margin-top:25px;background:#7ac943;border-radius:20px;padding:20px;font-size:50px}
+</style>
+</head>
+<body>
+<div class="game">
+<h1>🍯 Honey Farm 🐝</h1>
+<div class="stats">🍯 Мёд: <span id="honey">0</span></div>
+<button class="bee" id="bee">🐝</button>
+<div class="info">За клик: +<b id="power">1</b> 🍯</div>
+<button class="upgrade" id="upgrade">🐝 Улучшить пчёл<br>Цена: <span id="cost">25</span> 🍯</button>
+<div class="farm">🌳 🐝 🏡 🐝 🌻</div>
+</div>
+
+<script>
+let honey=0,power=1,cost=25;
+
+function update(){
+document.getElementById("honey").textContent=honey;
+document.getElementById("power").textContent=power;
+document.getElementById("cost").textContent=cost;
+}
+
+document.getElementById("bee").onclick=()=>{
+honey+=power;
+update();
+};
+
+document.getElementById("upgrade").onclick=()=>{
+if(honey>=cost){
+honey-=cost;
+power++;
+cost=Math.ceil(cost*1.7);
+update();
+}
+};
+
+update();
+</script>
+</body>
+</html>
