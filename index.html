@@ -1,1 +1,228 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Honey Farm 🍯</title>
 
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(#87ceeb,#dff6ff);
+  color:#4b3200;
+  text-align:center;
+}
+
+.game{
+  max-width:500px;
+  margin:auto;
+  padding:20px;
+}
+
+h1{
+  font-size:32px;
+}
+
+.stats{
+  background:white;
+  border-radius:20px;
+  padding:18px;
+  font-size:25px;
+  font-weight:bold;
+}
+
+.bee{
+  font-size:110px;
+  border:0;
+  background:transparent;
+  margin:20px;
+}
+
+.info{
+  font-size:19px;
+}
+
+.shop{
+  background:white;
+  border-radius:20px;
+  padding:18px;
+  margin-top:20px;
+}
+
+.item{
+  background:#fff3b0;
+  border-radius:15px;
+  padding:15px;
+  margin:10px 0;
+}
+
+.item button{
+  width:100%;
+  padding:14px;
+  border:0;
+  border-radius:12px;
+  background:#ffc107;
+  font-size:17px;
+  font-weight:bold;
+}
+
+.farm{
+  margin-top:20px;
+  background:#7ac943;
+  border-radius:20px;
+  padding:20px;
+  font-size:45px;
+}
+
+#message{
+  margin-top:12px;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="game">
+
+<h1>🍯 Honey Farm 🐝</h1>
+
+<div class="stats">
+🍯 Мёд: <span id="honey">0</span>
+</div>
+
+<button class="bee" id="clickBee">🐝</button>
+
+<div class="info">
+За клик: +<b id="power">1</b> 🍯
+<br>
+Автоматически: +<b id="auto">0</b> 🍯/сек
+</div>
+
+<div class="shop">
+
+<h2>🛒 Магазин</h2>
+
+<div class="item">
+🐝 <b>Купить пчелу</b>
+<br>
++1 🍯 в секунду
+<br><br>
+<button id="buyBee">
+Купить за <span id="beeCost">50</span> 🍯
+</button>
+</div>
+
+<div class="item">
+⚡ <b>Усилить клик</b>
+<br>
++1 🍯 за клик
+<br><br>
+<button id="upgrade">
+Улучшить за <span id="powerCost">25</span> 🍯
+</button>
+</div>
+
+<div id="message"></div>
+
+</div>
+
+<div class="farm">
+🌳 🐝 🏡 🐝 🌻
+<br>
+Пчёл: <span id="bees">0</span>
+</div>
+
+</div>
+
+<script>
+
+let honey = 0;
+let power = 1;
+let bees = 0;
+
+let beeCost = 50;
+let powerCost = 25;
+
+function update(){
+
+  document.getElementById("honey").textContent = Math.floor(honey);
+  document.getElementById("power").textContent = power;
+  document.getElementById("auto").textContent = bees;
+  document.getElementById("bees").textContent = bees;
+
+  document.getElementById("beeCost").textContent = beeCost;
+  document.getElementById("powerCost").textContent = powerCost;
+}
+
+function message(text){
+  document.getElementById("message").textContent = text;
+
+  setTimeout(function(){
+    document.getElementById("message").textContent = "";
+  },1500);
+}
+
+document.getElementById("clickBee").onclick = function(){
+
+  honey += power;
+  update();
+
+};
+
+document.getElementById("buyBee").onclick = function(){
+
+  if(honey >= beeCost){
+
+    honey -= beeCost;
+    bees++;
+
+    beeCost = Math.ceil(beeCost * 1.8);
+
+    message("🐝 Пчела куплена!");
+
+    update();
+
+  }else{
+
+    message("❌ Не хватает мёда!");
+
+  }
+
+};
+
+document.getElementById("upgrade").onclick = function(){
+
+  if(honey >= powerCost){
+
+    honey -= powerCost;
+    power++;
+
+    powerCost = Math.ceil(powerCost * 1.7);
+
+    message("⚡ Клик усилен!");
+
+    update();
+
+  }else{
+
+    message("❌ Не хватает мёда!");
+
+  }
+
+};
+
+setInterval(function(){
+
+  honey += bees;
+  update();
+
+},1000);
+
+update();
+
+</script>
+
+</body>
+  </html>
