@@ -1,4 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Honey Farm</title>
+<style>
+html,body{margin:0;min-height:100%;font-family:Arial,sans-serif}
+body{background:linear-gradient(#87ceeb,#dff6ff);color:#4b3200;text-align:center}
+.game{max-width:500px;margin:auto;padding:20px}
+h1{font-size:32px}
+.stats{background:#fff;border-radius:20px;padding:15px;font-size:24px;font-weight:bold}
+.bee{font-size:110px;border:0;background:transparent;margin:20px 0}
+.info{font-size:20px;margin-bottom:15px}
+button{width:100%;padding:16px;border:0;border-radius:15px;background:#ffc107;font-size:18px;font-weight:bold;margin-top:10px}
+.farm{margin-top:25px;background:#7ac943;border-radius:20px;padding:20px;font-size:45px}
+</style>
+</head>
 
+<body>
+<div class="game">
+
+<h1>🍯 Honey Farm 🐝</h1>
+
+<div class="stats">
+🍯 Мёд: <span id="honey">0</span>
+</div>
+
+<button class="bee" id="clickBee">🐝</button>
+
+<div class="info">
+За клик: +<b id="power">1</b> 🍯
+<br>
+Автоматически: +<b id="auto">0</b> 🍯/сек
+</div>
+
+<button id="upgrade">
+🐝 Улучшить силу<br>
+Цена: <span id="cost">25</span> 🍯
+</button>
+
+<button id="buyBee">
+🐝 Купить новую пчелу<br>
+Цена: <span id="beeCost">50</span> 🍯
+</button>
+
+<div class="farm">
+🌳 🐝 🏡 🐝 🌻
+<br>
+Пчёл: <span id="bees">0</span>
+</div>
+
+</div>
+
+<script>
+var honey=0;
+var power=1;
+var cost=25;
+var bees=0;
+var beeCost=50;
+
+function update(){
+ document.getElementById("honey").textContent=Math.floor(honey);
+ document.getElementById("power").textContent=power;
+ document.getElementById("cost").textContent=cost;
+ document.getElementById("bees").textContent=bees;
+ document.getElementById("auto").textContent=bees;
+ document.getElementById("beeCost").textContent=beeCost;
+}
+
+document.getElementById("clickBee").addEventListener("click",function(){
+ honey+=power;
+ update();
+});
+
+document.getElementById("upgrade").addEventListener("click",function(){
+ if(honey>=cost){
+  honey-=cost;
+  power++;
+  cost=Math.ceil(cost*1.7);
+  update();
+ }
+});
+
+document.getElementById("buyBee").addEventListener("click",function(){
+ if(honey>=beeCost){
+  honey-=beeCost;
+  bees++;
+  beeCost=Math.ceil(beeCost*1.8);
+  update();
+ }
+});
+
+setInterval(function(){
+ honey+=bees;
+ update();
+},1000);
+
+update();
+</script>
+
+</body>
+</html>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
