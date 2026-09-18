@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Honey Farm 🍯</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:linear-gradient(180deg,#74d7ff 0%,#dff8ff 55%,#8bd34a 100%);
+ color:#4b3000;
+ min-height:100vh;
+}
+
+.game{
+ max-width:520px;
+ margin:auto;
+ padding:16px;
+}
+
+.header{
+ background:rgba(255,255,255,.9);
+ border-radius:24px;
+ padding:16px;
+ box-shadow:0 6px 18px #0002;
+}
+
+h1{
+ margin:0;
+ font-size:30px;
+}
+
+.subtitle{
+ margin-top:5px;
+ color:#80652c;
+}
+
+.honey{
+ margin-top:15px;
+ background:#fff3a3;
+ border-radius:20px;
+ padding:15px;
+ font-size:27px;
+ font-weight:bold;
+}
+
+.production{
+ font-size:16px;
+ margin-top:5px;
+}
+
+.bigbee{
+ display:block;
+ width:180px;
+ height:180px;
+ margin:18px auto;
+ border:0;
+ border-radius:50%;
+ background:#ffe36e;
+ font-size:100px;
+ box-shadow:0 8px 0 #d7a900,0 12px 25px #0003;
+ cursor:pointer;
+}
+
+.bigbee:active{
+ transform:scale(.94);
+ box-shadow:0 4px 0 #d7a900,0 7px 15px #0003;
+}
+
+.section{
+ margin-top:18px;
+ background:rgba(255,255,255,.94);
+ border-radius:22px;
+ padding:16px;
+ box-shadow:0 5px 15px #0002;
+}
+
+.section h2{
+ margin:0 0 12px;
+}
+
+.item{
+ background:#fff7d6;
+ border:2px solid #f4d45c;
+ border-radius:17px;
+ padding:13px;
+ margin:10px 0;
+ text-align:left;
+}
+
+.item-title{
+ font-size:19px;
+ font-weight:bold;
+}
+
+.item-info{
+ margin:5px 0 10px;
+ color:#725b25;
+}
+
+.item button{
+ width:100%;
+ padding:13px;
+ border:0;
+ border-radius:12px;
+ background:#ffbd19;
+ color:#4b3000;
+ font-size:16px;
+ font-weight:bold;
+ cursor:pointer;
+}
+
+.item button:active{
+ transform:scale(.98);
+}
+
+.farm{
+ background:#65bd3b;
+ border-radius:20px;
+ padding:18px;
+ font-size:42px;
+ text-align:center;
+ margin-top:18px;
+ box-shadow:inset 0 3px 0 #8ddd5e;
+}
+
+.message{
+ min-height:22px;
+ text-align:center;
+ font-weight:bold;
+ margin-top:8px;
+}
+
+@media(max-width:360px){
+ h1{font-size:25px}
+ .bigbee{width:150px;height:150px;font-size:80px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="game">
+
+<div class="header">
+<h1>🍯 Honey Farm 🐝</h1>
+<div class="subtitle">Развивай свою медовую ферму!</div>
+
+<div class="honey">
+🍯 <span id="honey">0</span>
+<div class="production">
+Производство: <span id="production">0</span> 🍯/сек
+</div>
+</div>
+</div>
+
+<button class="bigbee" id="clickBee">🐝</button>
+
+<div class="section">
+
+<h2>🛒 Магазин</h2>
+
+<div class="item">
+<div class="item-title">🐝 Новая пчела</div>
+<div class="item-info">
++1 🍯/сек
+</div>
+<button id="buyBee">
+Купить — <span id="beeCost">50</span> 🍯
+</button>
+</div>
+
+<div class="item">
+<div class="item-title">🏡 Новый улей</div>
+<div class="item-info">
++5 🍯/сек и +1 место для пчёл
+</div>
+<button id="buyHive">
+Купить — <span id="hiveCost">250</span> 🍯
+</button>
+</div>
+
+<div class="item">
+<div class="item-title">⚡ Улучшить силу клика</div>
+<div class="item-info">
++1 🍯 за клик
+</div>
+<button id="upgrade">
+Улучшить — <span id="powerCost">25</span> 🍯
+</button>
+</div>
+
+<div class="message" id="message"></div>
+
+</div>
+
+<div class="section">
+<h2>🏡 Твоя ферма</h2>
+
+<div class="farm" id="farm">
+🌳 🏡 🌻
+</div>
+
+<p>🐝 Пчёл: <b id="bees">0</b></p>
+<p>🏡 Ульев: <b id="hives">0</b></p>
+<p>⚡ Сила клика: <b id="power">1</b></p>
+</div>
+
+</div>
+
+<script>
+
+let honey=0;
+let power=1;
+let bees=0;
+let hives=0;
+
+let beeCost=50;
+let hiveCost=250;
+let powerCost=25;
+
+function update(){
+
+ document.getElementById("honey").textContent=Math.floor(honey);
+ document.getElementById("power").textContent=power;
+ document.getElementById("bees").textContent=bees;
+ document.getElementById("hives").textContent=hives;
+
+ document.getElementById("beeCost").textContent=beeCost;
+ document.getElementById("hiveCost").textContent=hiveCost;
+ document.getElementById("powerCost").textContent=powerCost;
+
+ let production=bees+(hives*5);
+ document.getElementById("production").textContent=production;
+
+ let farm="🌳 ";
+
+ for(let i=0;i<hives;i++){
+   farm+="🏡 ";
+ }
+
+ for(let i=0;i<bees;i++){
+   if(i<12) farm+="🐝 ";
+ }
+
+ farm+="🌻";
+
+ document.getElementById("farm").textContent=farm;
+}
+
+function message(text){
+
+ document.getElementById("message").textContent=text;
+
+ setTimeout(function(){
+   document.getElementById("message").textContent="";
+ },1500);
+}
+
+document.getElementById("clickBee").onclick=function(){
+
+ honey+=power;
+ update();
+
+};
+
+document.getElementById("buyBee").onclick=function(){
+
+ if(honey>=beeCost){
+
+   honey-=beeCost;
+   bees++;
+
+   beeCost=Math.ceil(beeCost*1.7);
+
+   message("🐝 Новая пчела!");
+
+   update();
+
+ }else{
+
+   message("❌ Не хватает мёда!");
+
+ }
+
+};
+
+document.getElementById("buyHive").onclick=function(){
+
+ if(honey>=hiveCost){
+
+   honey-=hiveCost;
+   hives++;
+
+   hiveCost=Math.ceil(hiveCost*1.8);
+
+   message("🏡 Новый улей построен!");
+
+   update();
+
+ }else{
+
+   message("❌ Не хватает мёда!");
+
+ }
+
+};
+
+document.getElementById("upgrade").onclick=function(){
+
+ if(honey>=powerCost){
+
+   honey-=powerCost;
+   power++;
+
+   powerCost=Math.ceil(powerCost*1.6);
+
+   message("⚡ Сила клика увеличена!");
+
+   update();
+
+ }else{
+
+   message("❌ Не хватает мёда!");
+
+ }
+
+};
+
+setInterval(function(){
+
+ honey+=bees+(hives*5);
+ update();
+
+},1000);
+
+update();
+
+</script>
+
+</body>
+</html>
