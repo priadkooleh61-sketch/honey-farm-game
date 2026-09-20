@@ -3,515 +3,282 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>В гостях у Олега 🌾</title>
+<title>Медовая пасека</title>
 
 <style>
 * {
   box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #8fd35f;
-  color: #3d2b16;
-  overflow-x: hidden;
+  background: linear-gradient(#75d7ff, #b9ec82);
+  overflow: hidden;
 }
 
-#game {
-  max-width: 700px;
+.game {
+  width: 100%;
+  max-width: 500px;
+  height: 100vh;
   margin: auto;
-  min-height: 100vh;
-  background: #9bd866;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 20% 20%, white 0 3px, transparent 4px),
+    linear-gradient(#75d7ff 0 35%, #8bd34f 35% 100%);
 }
 
-header {
-  background: linear-gradient(#6fbd42, #4f9f32);
-  color: white;
+/* Верх */
+.top {
+  position: absolute;
+  top: 15px;
+  left: 12px;
+  right: 12px;
+  background: #75451f;
+  border: 4px solid #4e2d16;
+  border-radius: 20px;
   padding: 12px;
+  color: white;
   text-align: center;
-  box-shadow: 0 3px 8px #0005;
-}
-
-header h1 {
-  margin: 3px 0 8px;
-  font-size: 25px;
+  font-size: 21px;
+  font-weight: bold;
+  z-index: 10;
 }
 
 .stats {
   display: flex;
   justify-content: space-around;
-  background: #ffffffdd;
-  color: #553719;
+  margin-top: 8px;
+  background: #fff3c4;
+  color: #633c18;
   border-radius: 14px;
-  padding: 9px;
-  font-weight: bold;
+  padding: 8px;
+  font-size: 17px;
 }
 
-#farm {
-  position: relative;
-  height: 560px;
-  overflow: hidden;
-  background:
-    linear-gradient(135deg, #9bd866 25%, transparent 25%) 0 0/45px 45px,
-    linear-gradient(315deg, #94d15e 25%, transparent 25%) 0 0/45px 45px,
-    #a7df70;
-}
-
-.house {
+/* Пчёлы */
+.bee {
   position: absolute;
-  left: 35px;
-  top: 35px;
-  width: 145px;
-  height: 115px;
-  background: #f4c56b;
-  border: 5px solid #8a542d;
-  border-radius: 8px;
-  text-align: center;
-  padding-top: 50px;
   font-size: 48px;
-  box-shadow: 4px 5px 0 #0002;
+  animation: fly 4s infinite alternate ease-in-out;
 }
 
-.house:before {
+.bee1 {
+  top: 190px;
+  left: 40px;
+}
+
+.bee2 {
+  top: 270px;
+  right: 45px;
+  animation-delay: 1s;
+}
+
+.bee3 {
+  top: 370px;
+  left: 180px;
+  animation-delay: 2s;
+}
+
+@keyframes fly {
+  from {
+    transform: translate(0,0) rotate(-5deg);
+  }
+  to {
+    transform: translate(45px,-25px) rotate(5deg);
+  }
+}
+
+/* Ульи */
+.hives {
+  position: absolute;
+  bottom: 190px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.hive {
+  width: 115px;
+  height: 125px;
+  background: linear-gradient(#c88735, #8c4d20);
+  border: 5px solid #603616;
+  border-radius: 18px 18px 30px 30px;
+  position: relative;
+  box-shadow: 0 8px 0 #573216;
+}
+
+.hive:before,
+.hive:after {
   content: "";
   position: absolute;
-  left: -12px;
-  top: -52px;
-  border-left: 80px solid transparent;
-  border-right: 80px solid transparent;
-  border-bottom: 60px solid #b64d35;
+  left: 12px;
+  right: 12px;
+  height: 18px;
+  background: #e8a94d;
+  border: 3px solid #71401c;
+  border-radius: 10px;
 }
 
-.house span {
+.hive:before {
+  top: 30px;
+}
+
+.hive:after {
+  top: 65px;
+}
+
+.hiveDoor {
   position: absolute;
   bottom: 8px;
-  left: 45px;
-  font-size: 16px;
-  font-weight: bold;
+  left: 43px;
+  width: 25px;
+  height: 18px;
+  background: #4d2815;
+  border-radius: 50% 50% 0 0;
 }
 
-.tree {
+/* Банки */
+.jar {
   position: absolute;
-  font-size: 55px;
-  filter: drop-shadow(2px 3px 1px #0003);
-}
-
-.tree.t1 { right: 35px; top: 30px; }
-.tree.t2 { right: 120px; top: 175px; }
-.tree.t3 { left: 20px; bottom: 40px; }
-.tree.t4 { right: 30px; bottom: 35px; }
-
-.animal {
-  position: absolute;
-  font-size: 42px;
-  cursor: pointer;
-  user-select: none;
-  transition: transform .15s;
-}
-
-.animal:active {
-  transform: scale(1.2);
-}
-
-.cow { right: 60px; top: 230px; }
-.chicken { left: 195px; top: 105px; }
-.chicken2 { left: 230px; top: 145px; }
-
-.character {
-  position: absolute;
-  left: 320px;
-  top: 250px;
-  font-size: 55px;
-  z-index: 5;
-  animation: bob 1.8s infinite ease-in-out;
-}
-
-@keyframes bob {
-  50% { transform: translateY(-5px); }
-}
-
-.fields {
-  position: absolute;
-  left: 55px;
-  bottom: 45px;
-  display: grid;
-  grid-template-columns: repeat(3, 72px);
-  gap: 9px;
-}
-
-.plot {
-  width: 72px;
-  height: 72px;
-  background: #9a642f;
-  border: 4px solid #71431f;
-  border-radius: 9px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 38px;
-  cursor: pointer;
-  box-shadow: inset 0 4px 5px #0003;
-}
-
-.plot.ready {
-  background: #b87a37;
-}
-
-.shop {
-  position: absolute;
-  right: 25px;
-  bottom: 165px;
-  background: #f0b83e;
-  border: 4px solid #8b581b;
-  border-radius: 14px;
-  padding: 12px;
+  bottom: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 145px;
+  height: 135px;
+  background: rgba(255,255,255,.45);
+  border: 5px solid #dff8ff;
+  border-radius: 25px 25px 35px 35px;
+  box-shadow: inset 0 0 15px white;
   text-align: center;
-  font-size: 38px;
-  box-shadow: 3px 4px 0 #0003;
+  padding-top: 15px;
 }
 
-.shop span {
-  display: block;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.panel {
-  background: #fff8df;
-  padding: 15px;
-  border-top: 5px solid #75491f;
-}
-
-.panel h2 {
-  margin: 0 0 10px;
-  font-size: 20px;
-}
-
-.buttons {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 9px;
-}
-
-button {
-  border: 0;
-  border-radius: 12px;
-  padding: 13px 8px;
-  background: #65b83f;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  box-shadow: 0 3px 0 #3d7925;
-}
-
-button:active {
-  transform: translateY(2px);
-  box-shadow: 0 1px 0 #3d7925;
-}
-
-#message {
-  text-align: center;
-  min-height: 24px;
-  margin-top: 10px;
-  font-weight: bold;
-}
-
-.progress {
-  height: 12px;
-  background: #ddd;
+.jarLid {
+  width: 115px;
+  height: 20px;
+  background: #8b5a2b;
   border-radius: 10px;
-  overflow: hidden;
-  margin-top: 7px;
+  margin: -28px auto 15px;
 }
 
-#xpbar {
-  height: 100%;
-  width: 0%;
-  background: #f0b52e;
-  transition: width .3s;
+.honey {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 45%;
+  background: #f4b51b;
+  border-radius: 0 0 28px 28px;
+  opacity: .9;
 }
 
-@media (max-width: 500px) {
-  #farm {
-    height: 530px;
-  }
+.jarText {
+  position: relative;
+  z-index: 2;
+  font-size: 20px;
+  font-weight: bold;
+  color: #6a3b12;
+}
 
-  .house {
-    transform: scale(.85);
-    transform-origin: left top;
-  }
+/* Кнопка */
+.collect {
+  position: absolute;
+  bottom: 165px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 230px;
+  padding: 14px;
+  border: 0;
+  border-radius: 25px;
+  background: linear-gradient(#ffd84d, #e89b13);
+  border: 4px solid #9a5a12;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  z-index: 5;
+}
 
-  .fields {
-    left: 25px;
-    bottom: 35px;
-  }
-
-  .plot {
-    width: 66px;
-    height: 66px;
-  }
-
-  .character {
-    left: 285px;
-  }
+.collect:active {
+  transform: translateX(-50%) scale(.95);
 }
 </style>
 </head>
 
 <body>
 
-<div id="game">
+<div class="game">
 
-<header>
-  <h1>🌾 В гостях у Олега</h1>
+  <div class="top">
+    🐝 МЕДОВАЯ ПАСЕКА
 
-  <div class="stats">
-    <div>💰 <span id="coins">100</span></div>
-    <div>⭐ Ур. <span id="level">1</span></div>
-    <div>🌾 Урожай: <span id="harvest">0</span></div>
-  </div>
-</header>
-
-<div id="farm">
-
-  <div class="house">
-    🏠
-    <span>Дом Олега</span>
+    <div class="stats">
+      <span>🍯 Мёд: <b id="honeyCount">0</b></span>
+      <span>🫙 Банки: <b id="jars">0</b></span>
+    </div>
   </div>
 
-  <div class="tree t1">🌳</div>
-  <div class="tree t2">🌳</div>
-  <div class="tree t3">🌳</div>
-  <div class="tree t4">🌳</div>
+  <div class="bee bee1">🐝</div>
+  <div class="bee bee2">🐝</div>
+  <div class="bee bee3">🐝</div>
 
-  <div class="animal cow" onclick="animalClick('Корова')">🐄</div>
-  <div class="animal chicken" onclick="animalClick('Курица')">🐔</div>
-  <div class="animal chicken2" onclick="animalClick('Курица')">🐔</div>
+  <div class="hives">
 
-  <div class="character">🧑‍🌾</div>
+    <div class="hive">
+      <div class="hiveDoor"></div>
+    </div>
 
-  <div class="shop" onclick="buySeeds()">
-    🏪
-    <span>Магазин</span>
-  </div>
+    <div class="hive">
+      <div class="hiveDoor"></div>
+    </div>
 
-  <div class="fields">
-
-    <div class="plot" onclick="usePlot(0)">🌱</div>
-    <div class="plot" onclick="usePlot(1)">🌱</div>
-    <div class="plot" onclick="usePlot(2)">🌱</div>
-
-    <div class="plot" onclick="usePlot(3)">🌱</div>
-    <div class="plot" onclick="usePlot(4)">🌱</div>
-    <div class="plot" onclick="usePlot(5)">🌱</div>
-
-    <div class="plot" onclick="usePlot(6)">🌱</div>
-    <div class="plot" onclick="usePlot(7)">🌱</div>
-    <div class="plot" onclick="usePlot(8)">🌱</div>
+    <div class="hive">
+      <div class="hiveDoor"></div>
+    </div>
 
   </div>
-</div>
 
-<div class="panel">
+  <button class="collect" onclick="collectHoney()">
+    🍯 СОБРАТЬ МЁД
+  </button>
 
-  <h2>📋 Хозяйство Олега</h2>
+  <div class="jar">
 
-  <div>
-    Опыт:
-    <span id="xp">0</span> / 100
+    <div class="jarLid"></div>
+
+    <div class="honey"></div>
+
+    <div class="jarText">
+      🫙<br>
+      БАНКА МЁДА
+    </div>
+
   </div>
-
-  <div class="progress">
-    <div id="xpbar"></div>
-  </div>
-
-  <br>
-
-  <div class="buttons">
-    <button onclick="plantAll()">🌱 Посадить</button>
-    <button onclick="harvestAll()">🌾 Собрать урожай</button>
-    <button onclick="buySeeds()">🛒 Купить семена</button>
-    <button onclick="feedAnimals()">🥕 Покормить животных</button>
-  </div>
-
-  <div id="message">
-    Добро пожаловать на ферму! 🌾
-  </div>
-
-</div>
 
 </div>
 
 <script>
 
-let coins = 100;
-let xp = 0;
-let level = 1;
-let harvest = 0;
-let seeds = 9;
+let honey = 0;
+let jars = 0;
 
-let plots = [
-  "🌱","🌱","🌱",
-  "🌱","🌱","🌱",
-  "🌱","🌱","🌱"
-];
+function collectHoney() {
 
-const plotElements = document.querySelectorAll(".plot");
+  honey += 10;
 
-function update() {
-
-  document.getElementById("coins").textContent = coins;
-  document.getElementById("xp").textContent = xp;
-  document.getElementById("level").textContent = level;
-  document.getElementById("harvest").textContent = harvest;
-
-  document.getElementById("xpbar").style.width =
-    Math.min(xp,100) + "%";
-
-  plotElements.forEach((plot,i) => {
-    plot.textContent = plots[i];
-
-    if (plots[i] === "🌾") {
-      plot.classList.add("ready");
-    } else {
-      plot.classList.remove("ready");
-    }
-  });
-}
-
-function message(text) {
-  document.getElementById("message").textContent = text;
-}
-
-function addXP(amount) {
-
-  xp += amount;
-
-  if (xp >= 100) {
-    xp -= 100;
-    level++;
-    coins += 50;
-
-    message("🎉 Новый уровень! +50 монет!");
+  if (honey >= 100) {
+    honey -= 100;
+    jars++;
   }
 
-  update();
+  document.getElementById("honeyCount").textContent = honey;
+  document.getElementById("jars").textContent = jars;
 }
-
-function usePlot(i) {
-
-  if (plots[i] === "🌱") {
-
-    if (seeds <= 0) {
-      message("❌ У тебя закончились семена!");
-      return;
-    }
-
-    seeds--;
-    plots[i] = "🌾";
-
-    message("🌱 Пшеница посажена!");
-    update();
-
-  } else {
-
-    plots[i] = "🌱";
-    coins += 15;
-    harvest++;
-    addXP(20);
-
-    message("🌾 Урожай собран! +15 монет");
-  }
-}
-
-function plantAll() {
-
-  let planted = 0;
-
-  for (let i=0; i<plots.length; i++) {
-
-    if (plots[i] === "🌱" && seeds > 0) {
-      plots[i] = "🌾";
-      seeds--;
-      planted++;
-    }
-  }
-
-  if (planted > 0) {
-    message("🌱 Посажено полей: " + planted);
-  } else {
-    message("❌ Нет семян или все поля уже посажены.");
-  }
-
-  update();
-}
-
-function harvestAll() {
-
-  let collected = 0;
-
-  for (let i=0; i<plots.length; i++) {
-
-    if (plots[i] === "🌾") {
-      plots[i] = "🌱";
-      collected++;
-      coins += 15;
-      harvest++;
-      addXP(20);
-    }
-  }
-
-  if (collected > 0) {
-    message("🌾 Собрано полей: " + collected + "!");
-  } else {
-    message("🌱 Пока нечего собирать.");
-  }
-
-  update();
-}
-
-function buySeeds() {
-
-  if (coins < 20) {
-    message("❌ Нужно 20 монет.");
-    return;
-  }
-
-  coins -= 20;
-  seeds += 5;
-
-  message("🌱 Куплено 5 семян!");
-  update();
-}
-
-function feedAnimals() {
-
-  if (coins < 10) {
-    message("❌ Нужно 10 монет.");
-    return;
-  }
-
-  coins -= 10;
-  addXP(10);
-
-  message("🐄🐔 Животные накормлены! +10 опыта");
-  update();
-}
-
-function animalClick(animal) {
-
-  coins += 5;
-
-  message("❤️ " + animal + " рада тебя видеть! +5 монет");
-
-  update();
-}
-
-update();
 
 </script>
 
 </body>
-    </html>
+      </html>
